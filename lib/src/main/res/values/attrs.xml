@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="Global">
+        <attr name="strokeColor" format="color" />
+    </declare-styleable>
     <declare-styleable name="TwoArcLoader">
         <attr name="strokeWidth" format="dimension" />
-        <attr name="strokeColor" format="color" />
+        <attr name="strokeColor" />
         <attr name="cycleDuration" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="NewtonCradleLoader">
+        <attr name="circleRadius" format="dimension" />
+        <attr name="circleColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="PinWheelLoader">
+        <attr name="strokeColor" />
     </declare-styleable>
 </resources>
