@@ -26,8 +26,6 @@ class TwoArcLoader @JvmOverloads constructor(
         strokeCap = Paint.Cap.ROUND
     }
 
-    private var rotationAngle = 0f
-
     private var smallestDimen = 0f
 
     private val rectF = RectF(0f, 0f, 0f, 0f)
@@ -47,6 +45,8 @@ class TwoArcLoader @JvmOverloads constructor(
         if (null != attributeSet) {
             initAttrs(attributeSet)
         }
+
+        setLayerType(LAYER_TYPE_HARDWARE, paint)
     }
 
     override fun onAttachedToWindow() {
@@ -99,11 +99,6 @@ class TwoArcLoader @JvmOverloads constructor(
 
         canvas.apply {
             translate(paddingLeft.toFloat(), paddingTop.toFloat())
-            rotate(
-                rotationAngle,
-                (width - paddingLeft.times(2)) / 2f,
-                (height - paddingTop.times(2)) / 2f
-            )
             drawPath(path1, paint)
             drawPath(path2, paint)
         }
@@ -125,8 +120,6 @@ class TwoArcLoader @JvmOverloads constructor(
     }
 
     private fun onAnimationUpdate(valueAnimator: ValueAnimator) {
-
-        rotationAngle = valueAnimator.animatedValue as Float
-        postInvalidate()
+        rotation = valueAnimator.animatedValue as Float
     }
 }
