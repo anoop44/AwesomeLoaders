@@ -40,6 +40,8 @@ class PinWheelLoader @JvmOverloads constructor(
         if (attributes != null) {
             initAttrs(attributes)
         }
+
+        setLayerType(LAYER_TYPE_HARDWARE, paint)
     }
 
     private fun initAttrs(attributes: AttributeSet) {
@@ -97,7 +99,7 @@ class PinWheelLoader @JvmOverloads constructor(
         animator?.cancel()
 
         animator = ValueAnimator.ofFloat(0f, 7200f).apply {
-            duration = 1500
+            duration = 5000
             interpolator = OvershootInterpolator()
             addUpdateListener(::onAnimationUpdate)
         }.also {
