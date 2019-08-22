@@ -32,6 +32,8 @@ class PinWheelLoader @JvmOverloads constructor(
         dpToPx(24f, resources).toInt()
     }
 
+    private val LEAF_HEIGHT_FACTOR = 0.7f
+
     private var path: Path? = null
 
     private var animator: Animator? = null
@@ -42,57 +44,6 @@ class PinWheelLoader @JvmOverloads constructor(
         }
 
         setLayerType(LAYER_TYPE_HARDWARE, paint)
-    }
-
-    private fun initAttrs(attributes: AttributeSet) {
-        context.obtainStyledAttributes(attributes, R.styleable.PinWheelLoader, defStyleRes, 0).use {
-            paint.color = it.getColor(R.styleable.PinWheelLoader_strokeColor, Color.BLACK)
-        }
-    }
-
-
-    private fun initPath() {
-        val smallestDimen = min(measuredWidth, measuredHeight)
-        val hPadding = (measuredWidth - smallestDimen).div(2f)
-        val vPadding = (measuredHeight - smallestDimen).div(2f)
-        val leafDimen = measuredWidth.div(2f) - hPadding
-
-        path = Path().apply {
-            moveTo(measuredWidth.div(2f), vPadding)
-            lineTo(measuredWidth.div(2f), measuredHeight - vPadding)
-            moveTo(hPadding, measuredHeight.div(2f))
-            lineTo(measuredWidth - hPadding, measuredHeight.div(2f))
-            quadTo(
-                measuredWidth.div(2f) + leafDimen.div(2),
-                measuredHeight.div(2f) - leafDimen.div(2f),
-                measuredWidth.div(2f),
-                measuredHeight.div(2f)
-            )
-
-            quadTo(
-                hPadding + leafDimen.div(2f),
-                vPadding + leafDimen.div(2f),
-                measuredWidth.div(2f),
-                vPadding
-            )
-
-            moveTo(hPadding, measuredHeight.div(2f))
-            quadTo(
-                hPadding + leafDimen.div(2f),
-                measuredHeight.div(2f) + leafDimen.div(2f),
-                measuredWidth.div(2f),
-                measuredHeight.div(2f)
-            )
-
-            quadTo(
-                measuredWidth.div(2f) + leafDimen.div(2f),
-                measuredHeight.div(2f) + leafDimen.div(2f),
-                measuredWidth.div(2f),
-                measuredHeight - vPadding
-            )
-        }
-
-        startAnimation()
     }
 
     private fun startAnimation() {
@@ -126,7 +77,9 @@ class PinWheelLoader @JvmOverloads constructor(
         }
 
         setMeasuredDimension(width, height)
+    }
 
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         initPath()
     }
 
@@ -134,5 +87,56 @@ class PinWheelLoader @JvmOverloads constructor(
         canvas.run {
             drawPath(path, paint)
         }
+    }
+
+    private fun initAttrs(attributes: AttributeSet) {
+        context.obtainStyledAttributes(attributes, R.styleable.PinWheelLoader, defStyleRes, 0).use {
+            paint.color = it.getColor(R.styleable.PinWheelLoader_strokeColor, Color.BLACK)
+        }
+    }
+
+
+    private fun initPath() {
+        val smallestDimen = min(width, height)
+        val hPadding = (width - smallestDimen).div(2f)
+        val vPadding = (height - smallestDimen).div(2f)
+        val leafDimen = width.div(2f) - hPadding
+
+        path = Path().apply {
+            moveTo(width.div(2f), vPadding)
+            lineTo(width.div(2f), height - vPadding)
+            moveTo(hPadding, height.div(2f))
+            lineTo(width - hPadding, height.div(2f))
+            quadTo(
+                width.div(2f) + leafDimen.div(2),
+                height.div(2f) - leafDimen.times(LEAF_HEIGHT_FACTOR),
+                width.div(2f),
+                height.div(2f)
+            )
+
+            quadTo(
+                width.div(2f) - leafDimen.times(LEAF_HEIGHT_FACTOR),
+                vPadding + leafDimen.div(2f),
+                width.div(2f),
+                vPadding
+            )
+
+            moveTo(hPadding, height.div(2f))
+            quadTo(
+                hPadding + leafDimen.div(2f),
+                height.div(2f) + leafDimen.times(LEAF_HEIGHT_FACTOR),
+                width.div(2f),
+                height.div(2f)
+            )
+
+            quadTo(
+                width.div(2f) + leafDimen.times(LEAF_HEIGHT_FACTOR),
+                height.div(2f) + leafDimen.div(2f),
+                width.div(2f),
+                height - vPadding
+            )
+        }
+
+        startAnimation()
     }
 }
