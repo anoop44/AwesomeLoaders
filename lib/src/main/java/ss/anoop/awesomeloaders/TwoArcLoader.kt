@@ -24,6 +24,7 @@ class TwoArcLoader @JvmOverloads constructor(
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
         strokeCap = Paint.Cap.ROUND
+        strokeWidth = dpToPx(2f, context.resources)
     }
 
     private var smallestDimen = 0f
@@ -75,13 +76,15 @@ class TwoArcLoader @JvmOverloads constructor(
         }
 
         setMeasuredDimension(width, height)
+    }
 
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         smallestDimen = min(width, height).toFloat()
         rectF.apply {
             left = paint.strokeWidth / 2
             top = left
             bottom = smallestDimen - top
-            right = smallestDimen - top
+            right = smallestDimen - left
         }
 
         val paddingSide = (width - smallestDimen.toInt()) / 2
@@ -91,7 +94,6 @@ class TwoArcLoader @JvmOverloads constructor(
 
         path1.addArc(rectF, 0f, 120f)
         path2.addArc(rectF, 180f, 120f)
-
     }
 
 
@@ -102,6 +104,7 @@ class TwoArcLoader @JvmOverloads constructor(
             drawPath(path1, paint)
             drawPath(path2, paint)
         }
+
     }
 
     override fun onDetachedFromWindow() {
