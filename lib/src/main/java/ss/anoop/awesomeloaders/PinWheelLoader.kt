@@ -46,22 +46,6 @@ class PinWheelLoader @JvmOverloads constructor(
         setLayerType(LAYER_TYPE_HARDWARE, paint)
     }
 
-    private fun startAnimation() {
-        animator?.cancel()
-
-        animator = ValueAnimator.ofFloat(0f, 7200f).apply {
-            duration = 5000
-            interpolator = OvershootInterpolator()
-            addUpdateListener(::onAnimationUpdate)
-        }.also {
-            it.start()
-        }
-    }
-
-    private fun onAnimationUpdate(valueAnimator: ValueAnimator) {
-        rotation = valueAnimator.animatedValue as Float
-    }
-
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val width = if (getMode(widthMeasureSpec) == EXACTLY) {
@@ -138,5 +122,21 @@ class PinWheelLoader @JvmOverloads constructor(
         }
 
         startAnimation()
+    }
+
+    private fun startAnimation() {
+        animator?.cancel()
+
+        animator = ValueAnimator.ofFloat(0f, 7200f).apply {
+            duration = 5000
+            interpolator = OvershootInterpolator()
+            addUpdateListener(::onAnimationUpdate)
+        }.also {
+            it.start()
+        }
+    }
+
+    private fun onAnimationUpdate(valueAnimator: ValueAnimator) {
+        rotation = valueAnimator.animatedValue as Float
     }
 }
