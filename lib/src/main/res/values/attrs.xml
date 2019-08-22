@@ -2,9 +2,10 @@
 <resources>
     <declare-styleable name="Global">
         <attr name="strokeColor" format="color" />
+        <attr name="strokeWidth" format="dimension" />
     </declare-styleable>
     <declare-styleable name="TwoArcLoader">
-        <attr name="strokeWidth" format="dimension" />
+        <attr name="strokeWidth" />
         <attr name="strokeColor" />
         <attr name="cycleDuration" format="integer" />
     </declare-styleable>
@@ -16,5 +17,6 @@
 
     <declare-styleable name="PinWheelLoader">
         <attr name="strokeColor" />
+        <attr name="strokeWidth" />
     </declare-styleable>
 </resources>

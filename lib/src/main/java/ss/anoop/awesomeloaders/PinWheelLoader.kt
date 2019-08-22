@@ -75,7 +75,8 @@ class PinWheelLoader @JvmOverloads constructor(
 
     private fun initAttrs(attributes: AttributeSet) {
         context.obtainStyledAttributes(attributes, R.styleable.PinWheelLoader, defStyleRes, 0).use {
-            paint.color = it.getColor(R.styleable.PinWheelLoader_strokeColor, Color.BLACK)
+            paint.color = it.getColor(R.styleable.PinWheelLoader_strokeColor, paint.color)
+            paint.strokeWidth = it.getDimension(R.styleable.PinWheelLoader_strokeWidth, paint.strokeWidth)
         }
     }
 
